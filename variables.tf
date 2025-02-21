@@ -130,6 +130,11 @@ variable "subnets" {
   }
 }
 
+variable "route_table_next_hop_ip_address" {
+  description = "The next hop ip address to add to the standard route table."
+  type        = string
+}
+
 variable "extra_route_table_rules" {
   description = "The environment specific security rules to add to the standard route table."
   type        = list(string)
