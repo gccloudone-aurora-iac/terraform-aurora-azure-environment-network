@@ -71,7 +71,7 @@ resource "azurerm_route_table" "this" {
       name                   = "${module.azure_resource_prefixes.route_table_prefix}-default-route"
       address_prefix         = "0.0.0.0/0"
       next_hop_type          = "VirtualAppliance"
-      next_hop_in_ip_address = "172.23.160.22"
+      next_hop_in_ip_address = var.route_table_next_hop_ip_address 
     }
   ], var.extra_route_table_rules)
 
