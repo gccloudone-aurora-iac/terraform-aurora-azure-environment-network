@@ -3,7 +3,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 #
 resource "azurerm_resource_group" "network" {
-  name     = "${module.azure_resource_prefixes.resource_group_prefix}-network"
+  name     = "${module.azure_resource_names.resource_group_name}-network"
   location = var.azure_resource_attributes.location
 
   tags = local.tags
@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "network" {
 resource "azurerm_network_security_group" "this" {
   for_each = local.nsg_security_rules
 
-  name                = "${module.azure_resource_prefixes.network_security_group_prefix}-${each.key}"
+  name                = "${module.azure_resource_names.network_security_group_name}-${each.key}"
   location            = azurerm_resource_group.network.location
   resource_group_name = azurerm_resource_group.network.name
 
@@ -62,16 +62,16 @@ resource "azurerm_network_security_group" "this" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route_table
 #
 resource "azurerm_route_table" "this" {
-  name                = module.azure_resource_prefixes.route_table_prefix
+  name                = module.azure_resource_names.route_table_name
   resource_group_name = azurerm_resource_group.network.name
   location            = var.azure_resource_attributes.location
 
   route = concat([
     {
-      name                   = "${module.azure_resource_prefixes.route_table_prefix}-default-route"
+      name                   = "${module.azure_resource_names.route_table_name}-default-route"
       address_prefix         = "0.0.0.0/0"
       next_hop_type          = "VirtualAppliance"
-      next_hop_in_ip_address = var.route_table_next_hop_ip_address 
+      next_hop_in_ip_address = var.route_table_next_hop_ip_address
     }
   ], var.extra_route_table_rules)
 
@@ -87,10 +87,13 @@ resource "azurerm_route_table" "this" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network
 #
 module "virtual_network" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git?ref=v1.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git?ref=v2.0.0"
 
   azure_resource_attributes = var.azure_resource_attributes
-  resource_group_name       = azurerm_resource_group.network.name
+  naming_convention         = var.naming_convention
+  user_defined              = var.user_defined
+
+  resource_group_name = azurerm_resource_group.network.name
 
   address_space           = var.vnet_address_space
   vnet_peers              = var.vnet_peers
@@ -113,11 +116,14 @@ module "virtual_network" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-route-server
 #
 module "route_server" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git?ref=v1.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git?ref=v2.0.0"
 
   azure_resource_attributes = var.azure_resource_attributes
-  resource_group_name       = azurerm_resource_group.network.name
-  subnet_id                 = lookup(module.virtual_network.vnet_subnets_name_id, "RouteServerSubnet")
+  naming_convention         = var.naming_convention
+  user_defined              = var.user_defined
+
+  resource_group_name = azurerm_resource_group.network.name
+  subnet_id           = lookup(module.virtual_network.vnet_subnets_name_id, "RouteServerSubnet")
 
   bgp_peers = var.route_server_bgp_peers
 

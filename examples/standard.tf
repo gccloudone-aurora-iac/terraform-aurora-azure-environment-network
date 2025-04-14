@@ -86,11 +86,16 @@ resource "azurerm_virtual_network" "remote" {
 module "network" {
   source = "../"
 
+  naming_convention = "gc"
+  user_defined      = "example"
+
   azure_resource_attributes = {
-    project     = "aur"
-    environment = "dev"
-    location    = azurerm_resource_group.example.location
-    instance    = 0
+    department_code = "Gc"
+    owner           = "ABC"
+    project         = "aur"
+    environment     = "dev"
+    location        = azurerm_resource_group.example.location
+    instance        = 0
   }
 
   vnet_address_space = ["10.0.0.0/21"]
@@ -154,6 +159,8 @@ module "network" {
       peer_ip  = "172.26.25.37"
     }
   ]
+
+  route_table_next_hop_ip_address = ""
 
   tags = local.azure_tags
 }
