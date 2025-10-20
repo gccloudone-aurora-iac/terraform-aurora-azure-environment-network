@@ -87,7 +87,7 @@ resource "azurerm_route_table" "this" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network
 #
 module "virtual_network" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git?ref=v2.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git?ref=v2.0.1"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention
@@ -116,7 +116,7 @@ module "virtual_network" {
 # https://github.com/gccloudone-aurora-iac/terraform-azure-route-server
 #
 module "route_server" {
-  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git?ref=v2.0.0"
+  source = "git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git?ref=v2.0.1"
 
   azure_resource_attributes = var.azure_resource_attributes
   naming_convention         = var.naming_convention

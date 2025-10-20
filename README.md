@@ -41,8 +41,8 @@ Examples for this module along with various configurations can be found in the [
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_azure_resource_names"></a> [azure\_resource\_names](#module\_azure\_resource\_names) | git::https://github.com/gccloudone-aurora-iac/terraform-aurora-azure-resource-names.git | v2.0.0 |
-| <a name="module_route_server"></a> [route\_server](#module\_route\_server) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git | v2.0.0 |
-| <a name="module_virtual_network"></a> [virtual\_network](#module\_virtual\_network) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git | v2.0.0 |
+| <a name="module_route_server"></a> [route\_server](#module\_route\_server) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-route-server.git | v2.0.1 |
+| <a name="module_virtual_network"></a> [virtual\_network](#module\_virtual\_network) | git::https://github.com/gccloudone-aurora-iac/terraform-azure-virtual-network.git | v2.0.1 |
 
 ## Inputs
 
@@ -85,3 +85,4 @@ Examples for this module along with various configurations can be found in the [
 | Date       | Release | Change                                                                                                    |
 | ---------- | ------- | --------------------------------------------------------------------------------------------------------- |
 | 2025-01-25 | v1.0.0  | Initial commit                                                                                            |
+| 2025-10-20 | v2.0.1  | Pin minimum version of azurerm to 4.49.0                                                                  |
